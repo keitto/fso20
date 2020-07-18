@@ -1,12 +1,13 @@
 title FSO 0.4 / keitto
 
 browser -> server: new_note, "note contents"
-server -> browser: 302 to notes
+server -> browser: 302 redirect to notes
 browser -> server: notes, "note contents"
-server -> json file: push "note contents"
+server -> json file: push "note contents" to file
 server -> browser: 200 ok
+note over browser: save ok, refresh list
 browser -> server: GET the page all over again
-server -> browser: notes html, css, notes.js
+server -> browser: notes .html, .css, notes.js
 browser -> server: notes.js asking for the json
 json file -> server : read
 server -> browser: passes the json
