@@ -1,0 +1,10 @@
+title FSO 0.5 / keitto
+
+browser -> server: GET the page
+server -> browser: returns html
+browser -> server: oh page has css+js, GET them
+server -> browser: returns .css, spa.js
+browser -> server: spa.js asking for the json
+json file -> server: read
+server -> browser: returns json
+note over browser: appends notes to (empty) ul element
