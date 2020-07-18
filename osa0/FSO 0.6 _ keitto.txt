@@ -1,0 +1,21 @@
+title FSO 0.6 / keitto
+
+note over browser:
+    user inputs note, clicks button
+    
+    js first appends the note
+    to the ul element
+end note
+browser -> server: new note to /new_note_spa
+server -> json file: append note
+server -> browser: 201 "note created"
+note over browser, server:
+    server does not send note data here
+    
+    browser does NOT get notes made by 
+    other users without page reload
+    
+    does NOT care if server gets note
+    appends to client-side list anyways
+end note
+
