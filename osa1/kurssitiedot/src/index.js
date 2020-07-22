@@ -7,9 +7,7 @@ const Header = (props) => (
 
 const Content = (props) => (
   <div>
-    {props.course.parts.map(part => {
-      return (<li>{part.name} - {part.exercises}</li>)
-    })}
+    {props.course.parts.map(part => (<li>{part.name} - {part.exercises}</li>))}
   </div>
 )
 
