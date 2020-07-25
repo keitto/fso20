@@ -34,7 +34,7 @@ const TopAnecdote = ({votes}) => {
 
   return (
     <div>
-      <h1>Top anecdote(s) with {max} votes:</h1>
+      <h2>Top anecdote(s) with {max} votes:</h2>
       {ret.map((anecdote,i) => (<p key={i}>{anecdote}</p>))}
     </div>
   )
@@ -46,6 +46,7 @@ const App = (props) => {
 
   return (
     <div>
+      <h1>Anecdote of the day:</h1>
       <NextButton setsel={setSelected} />
       <VoteButton selected={selected} votes={votes} fun={setVotes}/>
       <p>{props.anecdotes[selected]}</p>
