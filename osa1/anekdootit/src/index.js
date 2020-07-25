@@ -32,7 +32,6 @@ const TopAnecdote = ({votes}) => {
     }
   })
 
-
   return (
     <div>
       <h1>Top anecdote(s) with {max} votes:</h1>
