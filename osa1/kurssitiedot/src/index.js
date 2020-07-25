@@ -6,13 +6,15 @@ const Header = (props) => (
 )
 
 const Content = (props) => (
-  <div>
-    {props.course.parts.map(part => (<li>{part.name} - {part.exercises}</li>))}
-  </div>
-)
-
-const Part = (props) => (
-  <p>{props.name} - {props.num}</p>
+  <table>
+    <tbody>
+    {props.course.parts.map((part,i) => (
+      <tr key={i}>
+        <td>{part.name}</td><td>{part.exercises}</td>
+      </tr>
+    ))}
+    </tbody>
+  </table>
 )
 
 const Total = (props) => (
@@ -42,7 +44,7 @@ const App = () => {
     <div>
       <Header course={course} />
       <Content course={course} />
-      <Total course={course}/>
+      <Total course={course} />
     </div>
   )
 }
