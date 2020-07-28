@@ -5,31 +5,26 @@ const Header = (props) => (
   <h1>{props.course.name}</h1>
 )
 
-const Content = (props) => (
+const Content = ({course}) =>
   <table>
     <tbody>
-    {props.course.parts.map((part,i) => (
-      <tr key={i}>
+    {course.parts.map((part) => (
+      <tr key={part.id}>
         <td>{part.name}</td><td>{part.exercises}</td>
       </tr>
     ))}
     </tbody>
   </table>
-)
 
-const Total = (props) => (
-  <p>{props.course.parts.reduce((accu, part) => accu + part.exercises,0)}</p>
-)
+const Total = ({course}) => 
+  <p>{course.parts.reduce((accu, part) => accu + part.exercises,0)}</p>
 
-const Course = ({course}) => {
-  return (
-    <div>
-      <Header course={course} />
-      <Content course={course} />
-      <Total course={course} />
-    </div>
-  )
-}
+const Course = ({course}) =>
+  <div>
+    <Header course={course} />
+    <Content course={course} />
+    <Total course={course} />
+  </div>
 
 const App = () => {
   const course = {
