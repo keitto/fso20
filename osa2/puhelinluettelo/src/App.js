@@ -1,41 +1,7 @@
 import React, {useState} from 'react';
-
-const Contacts = ({persons,filterInput}) =>
-  (
-    <table>
-      <tbody>
-      {persons
-      .filter((p)=>p.name.toLowerCase().includes(filterInput.toLowerCase()))
-      .map((person) => 
-        <tr key={person.name}>
-          <td>{person.name}</td>
-          <td>{person.number || ''}</td>
-        </tr>)}
-      </tbody>
-    </table>
-  )    
-
-const Newform = ({nameInput, nameInputChange, 
-  numberInput, numberInputChange, addButtonClick}) => 
-  (
-    <form>
-      <div>
-        Add new contact: 
-        <input value={nameInput} onChange={nameInputChange}/>
-        <input value={numberInput} onChange={numberInputChange}/>
-      </div>
-      <div>
-        <button type="submit" onClick={addButtonClick}>add</button>
-      </div>
-    </form>
-  )
-
-const Filter = ({filterInput,filterInputChange}) =>
-  (
-    <div>
-      <input value={filterInput} onChange={filterInputChange}/>
-    </div>
-  )
+import Contacts from './components/Contacts'
+import Filter from './components/Filter'
+import Newform from './components/Newform'
 
 const App = () => {
   const [ persons, setPersons] = useState([
@@ -48,9 +14,7 @@ const App = () => {
   const [filterInput, setFilterInput] = useState('')
 
   const nameInputChange = (e) => setNameInput(e.target.value)
-
   const numberInputChange = (e) => setNumberInput(e.target.value)
-
   const filterInputChange = (e) => setFilterInput(e.target.value)
 
   const addButtonClick = (e) => {
