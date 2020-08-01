@@ -8,56 +8,76 @@ const Filter = ({value, onChange}) => {
   )
 }
 
-const FilteredList = ({filter,list}) => {
-  const filtered = list.filter(i => i.name.toLowerCase().includes(filter.toLowerCase()))
-  if(filter === '')
-    return (<></>)
-  else if (filtered.length > 10)
-    return (<p>too many results (10+)</p>)
-  else if (filtered.length === 1)
-    return (
-      <SingleCountry country={filtered[0]} />
-      )
-  else
-    return (<ul>
-              {filtered.map(i => <li key={i.name}>{i.name}</li>)}
-            </ul>)
+const CountryList = ({countries, setDetailsCountry}) => {
+  if(countries.length > 10)
+    return <div>Too many hits (10+)</div>
+  return (<ul>
+    {countries.map(i => <FilteredListRow key={i.name} country={i} setDetailsCountry={setDetailsCountry}/>)}
+  </ul>)
 }
 
-const SingleCountry = ({country}) => (
-  <div>
-    <h2>{country.name}</h2>
-    <p>capital: {country.capital}</p>
-    <p>pop: {country.population}</p>
-    <h3>languages:</h3>
-    <ul>
-      {country.languages.map(l => <li key={l.name}>{l.name}</li>)}
-    </ul>
-    <img alt={`flag of ${country.name}`} src={country.flag} width="100"/>
-  </div>
+const FilteredListRow = ({country, setDetailsCountry}) => (
+  <li>
+    <button onClick={() => setDetailsCountry(country)}>i</button> 
+    {country.name}
+  </li>
 )
 
+const SingleCountry = ({country, setDetailsCountry}) => {
+  if(country.name) {
+    return (  
+      <div>
+        <h2>
+          <button onClick={() => setDetailsCountry({})}>x</button>
+          {country.name}
+        </h2>
+        <p>capital: {country.capital}</p>
+        <p>pop: {country.population}</p>
+        <h3>languages:</h3>
+        <ul>
+          {country.languages.map(l => <li key={l.name}>{l.name}</li>)}
+        </ul>
+        <img alt={`flag of ${country.name}`} src={country.flag} width="100"/>
+      </div>
+    )
+  }    
+}
+
 const App = () => {
-  const [filter, setFilter] = useState('') 
+  const [filter, setFilter] = useState('')
+  const [filtered, setFiltered] = useState([]) 
   const [countries, setCountries] = useState([])
+  const [detailsCountry, setDetailsCountry] = useState({})
 
   useEffect(() => {
     Axios
       .get("https://restcountries.eu/rest/v2/all")
       .then((result) => {
-        //result.data.forEach(r => {console.log(r.name)})
         setCountries(result.data)
       })
-    console.log("effe")
   }, [])
+
+  useEffect(() => {
+    console.log('filter or countries set')
+    setDetailsCountry({})
+    setFiltered(countries.filter(i => i.name.toLowerCase().includes(filter.toLowerCase())))
+  },[filter,countries])
 
   const filterOnCh = (e) => setFilter(e.target.value)
 
   return (
     <div>
+      <h1>Countries</h1>
       Filter countries 
-      <Filter value={filter} onChange={filterOnCh} />
-      <FilteredList filter={filter} list={countries}/>
+      <Filter value={filter} onChange={filterOnCh}/>
+      {filter !== '' ? <CountryList countries={filtered} setDetailsCountry={setDetailsCountry}/>:''}
+      {
+        detailsCountry.name
+          ? <SingleCountry country={detailsCountry} setDetailsCountry={setDetailsCountry}/>
+          : filtered.length === 1
+            ? <SingleCountry country={filtered[0]} setDetailsCountry={setDetailsCountry} />
+            : ''
+      }
     </div>
   );
 }
